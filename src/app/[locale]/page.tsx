@@ -1,9 +1,5 @@
-import { Language } from "@/src/componenets/locale/Language";
+import SwitchLanguage from "@/src/componenets/SwitchLanguage";
 
 export default function Page() {
-  return (
-    <>
-      <Language />
-    </>
-  );
+  return <></>;
 }

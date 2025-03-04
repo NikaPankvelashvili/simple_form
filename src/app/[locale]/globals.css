@@ -14,3 +14,9 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.active {
+  top: -11;
+  left: 7;
+  background-color: white;
+}

@@ -8,7 +8,7 @@ const SwitchLanguage = () => {
   const changeLocale = useChangeLocale();
   console.log(currentLocale);
   return (
-    <div className="absolute top-0 right-0 m-6 bg-main flex rounded-xl">
+    <div className="flex items-center justify-center">
       <label htmlFor="language" className="cursor-pointer p-2 rounded-xl">
         <CiGlobe className="text-2xl" />
       </label>

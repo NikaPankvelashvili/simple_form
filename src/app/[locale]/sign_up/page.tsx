@@ -1,6 +1,4 @@
 "use client";
-
-import { useState } from "react";
 import { useI18n } from "@/locales/client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
@@ -8,14 +6,19 @@ import { loginValidateShema } from "@src/app/schema/loginSchema";
 import Link from "next/link";
 import SwitchLanguage from "@/src/componenets/SwitchLanguage";
 
-export const LoginForm = () => {
+import { useState } from "react";
+import { signUpValidateShema } from "../../schema/signUpSchema";
+
+export const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const t = useI18n();
 
   const initialValues = {
+    fullName: "",
     email: "",
     password: "",
+    confirmPassword: "",
   };
 
   const handleSubmit = (values: { email: string; password: string }) => {
@@ -27,7 +30,7 @@ export const LoginForm = () => {
   // };
 
   const classnames = {
-    form: "w-1/3 h-1/2 bg-blue-300 p-24 ",
+    form: "w-1/3 h-sceen bg-blue-300 p-24 ",
     input: "w-full border border-gray-300 rounded-md p-1 mb-4",
     forgotPassword: "mt-[6px] mb-8",
     signInButton:
@@ -39,11 +42,11 @@ export const LoginForm = () => {
     <>
       <Formik
         initialValues={initialValues}
-        validationSchema={loginValidateShema}
+        validationSchema={signUpValidateShema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, touched, errors }) => (
-          <Form className="w-1/3 h-1/2 bg-main px-24 flex flex-col py-16 rounded-md">
+          <Form className="w-1/3 h-auto bg-main px-24 flex flex-col py-16 rounded-md">
             <div className="mb-8">
               <h1 className="text-2xl font-bold text-center mb-8">
                 {t("login_title")}
@@ -54,6 +57,38 @@ export const LoginForm = () => {
               </h5>
             </div>
             <div className="space-y-3 flex flex-col">
+              <div className="relative">
+                <Field
+                  className={`${classnames.input} ${
+                    touched.fullName && errors.fullName ? "border-red-500" : ""
+                  }`}
+                  name="fullName"
+                  label="Full Name"
+                  id="fullName"
+                  onFocus={() =>
+                    document
+                      .getElementById("fullName_lable")
+                      ?.classList.add("active")
+                  }
+                  onBlur={() => {
+                    document
+                      .getElementById("fullName_lable")
+                      ?.classList.remove("active");
+                  }}
+                />
+                <label
+                  id="fullName_lable"
+                  htmlFor="fullName"
+                  className="absolute top-2 left-2 duration-200 select-none"
+                >
+                  Full Name
+                </label>
+                <ErrorMessage
+                  name="fullName"
+                  component={"div"}
+                  className="absolute top-9 left-2"
+                />
+              </div>
               <div className="relative">
                 <Field
                   className={`${classnames.input} ${
@@ -131,6 +166,53 @@ export const LoginForm = () => {
                   className="absolute top-9 left-2"
                 />
               </div>
+              <div className="relative">
+                <Field
+                  className={`${classnames.input} ${
+                    touched.confirmPassword && errors.confirmPassword
+                      ? "border-red-500"
+                      : ""
+                  }`}
+                  // placeholder="Password"
+                  name="confirmPassword"
+                  label="confirmPassword"
+                  type={showPassword ? "text" : "password"}
+                  id="confirmPassword"
+                  onFocus={() =>
+                    document
+                      .getElementById("confirmPassword_lable")
+                      ?.classList.add("active")
+                  }
+                  onBlur={() => {
+                    document
+                      .getElementById("confirmPassword_lable")
+                      ?.classList.remove("active");
+                  }}
+                />
+                {showPassword ? (
+                  <FaRegEyeSlash
+                    className={classnames.eyeIcon}
+                    onClick={() => setShowPassword(false)}
+                  />
+                ) : (
+                  <FaRegEye
+                    className={classnames.eyeIcon}
+                    onClick={() => setShowPassword(true)}
+                  />
+                )}
+                <label
+                  id="confirmPassword_lable"
+                  htmlFor="confirmPassword"
+                  className="absolute top-2 left-2 duration-200 select-none"
+                >
+                  Repeate Password
+                </label>
+                <ErrorMessage
+                  name="confirmPassword"
+                  component={"div"}
+                  className="absolute top-9 left-2"
+                />
+              </div>
             </div>
 
             <div className="mt-[6px] mb-8">
@@ -157,4 +239,4 @@ export const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignUp;
