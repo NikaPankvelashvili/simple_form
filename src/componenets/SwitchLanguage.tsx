@@ -14,7 +14,7 @@ const SwitchLanguage = () => {
       </label>
       <select
         id="language"
-        className="bg-main rounded-xl"
+        className="bg-white rounded-xl"
         onChange={(e) => changeLocale(e.target.value as "en" | "ka")}
         value={currentLocale}
       >

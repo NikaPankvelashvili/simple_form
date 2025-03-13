@@ -3,14 +3,22 @@
 import { useState } from "react";
 import { useI18n } from "@/locales/client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { loginValidateShema } from "@src/app/schema/loginSchema";
 import Link from "next/link";
 import SwitchLanguage from "@/src/componenets/SwitchLanguage";
+import NormalField from "@/src/componenets/form/NormalField";
+import PasswordField from "@/src/componenets/form/PasswordField";
+
+export const classnames = {
+  form: "w-1/3 bg-white px-24 flex flex-col py-16 rounded-md",
+  input: "w-full border border-gray-300 rounded-md p-2 mb-4",
+  forgotPassword: "mt-[6px] mb-8",
+  signInButton:
+    "bg-main mb-8 text-black w-full h-10 p-4 rounded-md flex justify-center items-center",
+  eyeIcon: "absolute cursor-pointer text-black top-2 right-2",
+};
 
 export const LoginForm = () => {
-  const [showPassword, setShowPassword] = useState(false);
-
   const t = useI18n();
 
   const initialValues = {
@@ -26,15 +34,6 @@ export const LoginForm = () => {
   //   setStatus(null);
   // };
 
-  const classnames = {
-    form: "w-1/3 h-1/2 bg-blue-300 p-24 ",
-    input: "w-full border border-gray-300 rounded-md p-1 mb-4",
-    forgotPassword: "mt-[6px] mb-8",
-    signInButton:
-      "bg-white text-black w-full h-10 p-4 rounded-md flex justify-center items-center",
-    eyeIcon: "absolute cursor-pointer text-black top-2 right-2",
-  };
-
   return (
     <>
       <Formik
@@ -43,7 +42,7 @@ export const LoginForm = () => {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, touched, errors }) => (
-          <Form className="w-1/3 h-1/2 bg-main px-24 flex flex-col py-16 rounded-md">
+          <Form className={classnames.form}>
             <div className="mb-8">
               <h1 className="text-2xl font-bold text-center mb-8">
                 {t("login_title")}
@@ -54,29 +53,32 @@ export const LoginForm = () => {
               </h5>
             </div>
             <div className="space-y-3 flex flex-col">
-              <div className="relative">
+              <NormalField
+                name="email"
+                customCSS={classnames.input}
+                touchedField={touched.email as unknown as string}
+                errorsField={errors.email as unknown as string}
+              />
+              {/* <div className="relative">
                 <Field
                   className={`${classnames.input} ${
                     touched.email && errors.email ? "border-red-500" : ""
                   }`}
+                  placeholder={emailActive ? "" : "Email"}
                   name="email"
                   label="email"
                   id="email"
-                  onFocus={() =>
-                    document
-                      .getElementById("email_lable")
-                      ?.classList.add("active")
-                  }
+                  onFocus={() => setEmailActive(true)}
                   onBlur={() => {
-                    document
-                      .getElementById("email_lable")
-                      ?.classList.remove("active");
+                    setEmailActive(false);
                   }}
                 />
                 <label
                   id="email_lable"
                   htmlFor="email"
-                  className="absolute top-2 left-2 duration-200 select-none"
+                  className={`absolute top-1 left-1 duration-200 select-none  ${
+                    emailActive ? "active" : "opacity-0"
+                  }`}
                 >
                   Email
                 </label>
@@ -85,26 +87,20 @@ export const LoginForm = () => {
                   component={"div"}
                   className="absolute top-9 left-2"
                 />
-              </div>
-              <div className="relative">
+              </div> */}
+              {/* <div className="relative">
                 <Field
                   className={`${classnames.input} ${
                     touched.password && errors.password ? "border-red-500" : ""
                   }`}
-                  // placeholder="Password"
+                  placeholder={passwordActive ? "" : "Password"}
                   name="password"
                   label="Password"
                   type={showPassword ? "text" : "password"}
                   id="password"
-                  onFocus={() =>
-                    document
-                      .getElementById("password_lable")
-                      ?.classList.add("active")
-                  }
+                  onFocus={() => setPasswordActive(true)}
                   onBlur={() => {
-                    document
-                      .getElementById("password_lable")
-                      ?.classList.remove("active");
+                    setPasswordActive(false);
                   }}
                 />
                 {showPassword ? (
@@ -121,7 +117,9 @@ export const LoginForm = () => {
                 <label
                   id="password_lable"
                   htmlFor="password"
-                  className="absolute top-2 left-2 duration-200 select-none"
+                  className={`absolute top-2 left-2 duration-200 select-none ${
+                    passwordActive ? "active" : "opacity-0"
+                  }`}
                 >
                   Password
                 </label>
@@ -130,7 +128,13 @@ export const LoginForm = () => {
                   component={"div"}
                   className="absolute top-9 left-2"
                 />
-              </div>
+              </div> */}
+              <PasswordField
+                name="password"
+                customCSS={classnames.input}
+                touchedField={touched.password as unknown as string}
+                errorsField={errors.email as unknown as string}
+              />
             </div>
 
             <div className="mt-[6px] mb-8">
@@ -148,7 +152,9 @@ export const LoginForm = () => {
             >
               Sign In
             </button>
-            <Link href={`/sign_up`}>Register</Link>
+            <Link className="w-full text-center mt-4 mb-8" href={`/sign_up`}>
+              Register
+            </Link>
             <SwitchLanguage />
           </Form>
         )}

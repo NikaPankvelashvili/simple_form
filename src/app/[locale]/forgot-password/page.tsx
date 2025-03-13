@@ -6,6 +6,9 @@ import SwitchLanguage from "@/src/componenets/SwitchLanguage";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Link from "next/link";
 import { forgetPasswordValidateShema } from "../../schema/forgetPasswordSchema";
+import NormalField from "@/src/componenets/form/NormalField";
+import GoBackBtn from "@/src/componenets/form/GoBackBtn";
+import { classnames } from "@code/login/page";
 
 const ForgotPassword = () => {
   const t = useI18n();
@@ -18,15 +21,6 @@ const ForgotPassword = () => {
     console.log(values);
   };
 
-  const classnames = {
-    form: "w-1/3 h-1/2 bg-blue-300 p-24 ",
-    input: "w-full border border-gray-300 rounded-md p-1 mb-4",
-    forgotPassword: "mt-[6px] mb-8",
-    signInButton:
-      "bg-white text-black w-full h-10 p-4 rounded-md flex justify-center items-center",
-    eyeIcon: "absolute cursor-pointer text-black top-2 right-2",
-  };
-
   return (
     <>
       <Formik
@@ -35,7 +29,8 @@ const ForgotPassword = () => {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, touched, errors }) => (
-          <Form className="w-1/3 h-1/2 bg-main px-24 flex flex-col py-16 rounded-md">
+          <Form className={classnames.form}>
+            <GoBackBtn />
             <div className="mb-8">
               <h1 className="text-2xl font-bold text-center mb-8">
                 {t("login_title")}
@@ -46,38 +41,12 @@ const ForgotPassword = () => {
               </h5>
             </div>
             <div className="space-y-3 flex flex-col">
-              <div className="relative">
-                <Field
-                  className={`${classnames.input} ${
-                    touched.email && errors.email ? "border-red-500" : ""
-                  }`}
-                  name="email"
-                  label="email"
-                  id="email"
-                  onFocus={() =>
-                    document
-                      .getElementById("email_lable")
-                      ?.classList.add("active")
-                  }
-                  onBlur={() => {
-                    document
-                      .getElementById("email_lable")
-                      ?.classList.remove("active");
-                  }}
-                />
-                <label
-                  id="email_lable"
-                  htmlFor="email"
-                  className="absolute top-2 left-2 duration-200 select-none"
-                >
-                  Email
-                </label>
-                <ErrorMessage
-                  name="email"
-                  component={"div"}
-                  className="absolute top-9 left-2"
-                />
-              </div>
+              <NormalField
+                name="email"
+                customCSS={classnames.input}
+                touchedField={touched.email as unknown as string}
+                errorsField={errors.email as unknown as string}
+              />
             </div>
             <button
               className={classnames.signInButton}
@@ -86,7 +55,9 @@ const ForgotPassword = () => {
             >
               Sign In
             </button>
-            <Link href={`/sign_up`}>Register</Link>
+            <Link className="w-full text-center mt-4 mb-8" href={`/sign_up`}>
+              Register
+            </Link>
             <SwitchLanguage />
           </Form>
         )}
